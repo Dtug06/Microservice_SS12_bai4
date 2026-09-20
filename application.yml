@@ -1,0 +1,19 @@
+resilience4j:
+  circuitbreaker:
+    instances:
+      promoClient:
+        sliding-window-type: COUNT_BASED
+        sliding-window-size: 20
+        minimum-number-of-calls: 5
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 30s
+        permitted-number-of-calls-in-half-open-state: 3
+        automatic-transition-from-open-to-half-open-enabled: true
+
+        record-exceptions:
+          - java.util.concurrent.TimeoutException
+          - java.net.ConnectException
+          - org.springframework.web.client.HttpServerErrorException
+
+        ignore-exceptions:
+          - com.storex.exception.VoucherNotFoundException
